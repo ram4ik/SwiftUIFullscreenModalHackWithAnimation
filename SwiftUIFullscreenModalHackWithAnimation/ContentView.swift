@@ -10,7 +10,15 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        NavigationView {
+            VStack {
+                Button(action: {
+                    
+                }, label: {
+                    Text("Show standard modal")
+                })
+            }.navigationBarTitle("Standard")
+        }
     }
 }
 
