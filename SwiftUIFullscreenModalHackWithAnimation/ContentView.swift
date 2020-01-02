@@ -11,21 +11,50 @@ import SwiftUI
 struct ContentView: View {
     @State private var isPresented = false
     var body: some View {
-        NavigationView {
-            VStack {
-                Button(action: {
-                    self.isPresented.toggle()
-                }, label: {
-                    Text("Show standard modal")
-                })
-            }.navigationBarTitle("Standard")
-                .sheet(isPresented: $isPresented, content: {
+        ZStack {
+            NavigationView {
+                VStack {
                     Button(action: {
-                        self.isPresented.toggle()
-                    }) {
-                        Text("HERE IS MY MODAL")
+                        withAnimation {
+                            self.isPresented.toggle()
+                        }
+                    }, label: {
+                        Text("Show standard modal")
+                    })
+                }.navigationBarTitle("Standard")
+            }
+            ZStack {
+                HStack {
+                    Spacer()
+                    VStack {
+                        HStack {
+                            Button(action: {
+                                withAnimation {
+                                    self.isPresented.toggle()
+                                }
+                            }, label: {
+                                Text("Dismiss")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                            })
+                            Spacer()
+                            Button(action: {
+                                withAnimation {
+                                    self.isPresented.toggle()
+                                }
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.white)
+                            }
+                        }.padding(.top, UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.top)
+                        .padding(.horizontal)
+                        Spacer()
                     }
-                })
+                    Spacer()
+                }
+            }.background(Color.yellow)
+            .edgesIgnoringSafeArea(.all)
+            .offset(x: 0, y: isPresented ? 0 : UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.frame.height ?? 0)
         }
     }
 }
